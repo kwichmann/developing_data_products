@@ -1,0 +1,20 @@
+---
+title: "Danish Cities"
+author: "Kristian Gårdhus Wichmann"
+date: "19 jan 2017"
+output: html_document
+---
+
+## Load Leaflet library
+```{r}
+library(leaflet)
+```
+
+## Create map
+
+```{r}
+map <- leaflet() %>%
+  addTiles() %>%
+  addMarkers(lng = 12.5689, lat = 55.6772, popup="Copenhagen")
+map
+```
