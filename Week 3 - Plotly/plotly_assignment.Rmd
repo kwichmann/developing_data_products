@@ -2,26 +2,31 @@
 title: "Plotly Assignment"
 author: "Kristian Gårdhus Wichmann"
 date: "23 jan 2017"
-output: html_document
+output: ioslides_presentation
 ---
 
-This page visualizes the `iris` dataset in three dimensions using the `plotly`library.
-
 ## Loading library and data
+
+This presentation visualizes the `iris` dataset in three dimensions using the `plotly` library. Load these:
 
 ```{r, warning=FALSE, message=FALSE}
 library(plotly)
 data(iris)
 ```
 
-## The interactive plot
+## Make the plot
 
 X axis shows sepal length, y axis petal length, z axis petal width. Size show sepal width. Finally, color marks species:
 ```{r, warning=FALSE, message=FALSE}
-plot_ly(iris,
+plot <- plot_ly(iris,
         x = ~Sepal.Length, 
         y = ~Petal.Length,
         z = ~Petal.Width,
         size = ~Sepal.Width, type = "scatter3d",
         color = ~Species)
+```
+
+## Show the plot
+```{r, warning=FALSE, message=FALSE}
+plot
 ```
