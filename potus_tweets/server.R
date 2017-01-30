@@ -1,26 +1,41 @@
-#
-# This is the server logic of a Shiny web application. You can run the 
-# application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-# 
-#    http://shiny.rstudio.com/
-#
-
+# Load shiny library
 library(shiny)
 
-# Define server logic required to draw a histogram
+# Load tweets
+tweets <- read.csv("potus_tweets.csv", fileEncoding="UTF-8")
+
+# Load AFINN data set
+afinn <- read.csv("AFINN-111.txt", sep = "\t", header = FALSE)
+colnames(afinn) <- c("word", "score")
+
+# Get sentiment score and corresponding html element for a word
+sentiment <- function(word) {
+  lookup <- grep(paste0("^", word, "$"), afinn$word)
+  if (length(lookup) == 0) {
+    return (list(score = 0, html = word))
+  }
+  score <- afinn[lookup,]$score[1]
+  list(score = score, html = span(word, class = paste0("sentiment", score)))
+}
+
+# Similar analysis for an entire tweet
+sent_analyze <- function(tweet) {
+  text <- gsub('[\".,!?:;()]','', tweet)
+  text <- tolower(text)
+  words <- strsplit(text, ' ')[[1]]
+  scores <- sapply(words, function(w) sentiment(w)$score)
+  htmls <- sapply(words, function(w) as.character(sentiment(w)$html))
+  list(score = sum(scores), html = paste(htmls, collapse = " "))
+}
+
+# Server function
 shinyServer(function(input, output) {
-   
-  output$distPlot <- renderPlot({
-    
-    # generate bins based on input$bins from ui.R
-    x    <- faithful[, 2] 
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
-    
-    # draw the histogram with the specified number of bins
-    hist(x, breaks = bins, col = 'darkgray', border = 'white')
-    
-  })
   
+  output$headline <- reactive({
+    paste("Tweet number", as.character(input$tweet), sep = " ")
+  })
+  output$tweetText <- reactive({
+    sent_analyze(tweets$text[input$tweet])$html
+  })
+
 })

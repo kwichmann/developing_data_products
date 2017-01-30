@@ -18,16 +18,14 @@ shinyUI(fluidPage(
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
     sidebarPanel(
-      radioButtons("choice", "Display",
-                   c("Single tweets" = 1,
-                     "Distribution" = 2,
-                     "Time development" = 3)),
-      sliderInput("tweet", "Select tweet (single tweet mode only)", 1, 100, 1)
+      sliderInput("tweet", "Select tweet", 1, 321, 1)
     ),
     
     # Show a plot of the generated distribution
     mainPanel(
-       # plotOutput("distPlot")
+      h2(textOutput("headline")),
+      textOutput("tweetText")
+       # plotOutput("vizText")
     )
   )
 ))
