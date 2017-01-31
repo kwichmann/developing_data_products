@@ -1,0 +1,53 @@
+/* Make tweet font larger */
+
+p {
+	font-size: 150%;
+}
+
+/* Sentiment colors */
+
+.sentiment5 {
+	color: rgb(150, 150, 255);
+}
+
+.sentiment4 {
+	color: rgb(100, 100, 255);
+}
+
+.sentiment3 {
+	color: rgb(0, 0, 255);
+}
+
+.sentiment2 {
+	color: rgb(0, 0, 170);
+}
+
+.sentiment1 {
+	color: rgb(0, 0, 85);
+}
+
+.sentiment-5 {
+	color: rgb(255, 150, 150);
+}
+
+.sentiment-4 {
+	color: rgb(255, 100, 100);
+}
+
+.sentiment-3 {
+	color: rgb(255, 0, 0);
+}
+
+.sentiment-2 {
+	color: rgb(170, 0, 0);
+}
+
+.sentiment-1 {
+	color: rgb(85, 0, 0);
+}
+
+/* Sentiment score in italics */
+
+h4 {
+	font-style: italic;
+}

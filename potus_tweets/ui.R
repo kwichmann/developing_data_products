@@ -12,20 +12,31 @@ library(shiny)
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
   
+  # CSS
+  tags$head(
+    tags$link(rel = "stylesheet", type = "text/css", href = "style.css")
+  ),
+  
   # Application title
   titlePanel("POTUS tweet sentiment analysis"),
   
-  # Sidebar with a slider input for number of bins 
+  # Sidebar with a slider for choosing tweet
   sidebarLayout(
     sidebarPanel(
       sliderInput("tweet", "Select tweet", 1, 321, 1)
     ),
     
-    # Show a plot of the generated distribution
+    # Show tweet and sentiments
     mainPanel(
       h2(textOutput("headline")),
-      textOutput("tweetText")
-       # plotOutput("vizText")
+      uiOutput("tweetText"),
+      
+      h4(textOutput("sentiment")),
+      
+      plotOutput("histogram"),
+      
+      plotOutput("mean_plot")
+      
     )
   )
 ))
