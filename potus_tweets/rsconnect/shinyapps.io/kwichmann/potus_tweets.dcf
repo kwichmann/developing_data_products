@@ -1,0 +1,7 @@
+name: potus_tweets
+account: kwichmann
+server: shinyapps.io
+appId: 154210
+bundleId: 696845
+url: https://kwichmann.shinyapps.io/potus_tweets/
+when: 1485907516.2716

@@ -16,20 +16,37 @@ colnames(afinn) <- c("word", "score")
 sentiment <- function(word) {
   lookup <- grep(paste0("^", word, "$"), afinn$word)
   if (length(lookup) == 0) {
-    return (list(score = 0, html = word))
+    return(0)
   }
-  score <- afinn[lookup,]$score[1]
-  list(score = score, html = span(word, class = paste0("sentiment", score)))
+  afinn[lookup,]$score[1]
+}
+
+# Replace word with sentiment span
+insert_sentiment_span <- function(string, lower_word, sentiment) {
+  capture <- paste0("(", lower_word, ")")
+  replacement <- paste0('<span class="sentiment', as.character(sentiment), '">\\1</span>')
+  gsub(capture, replacement, string, ignore.case = TRUE)
 }
 
 # Similar analysis for an entire tweet
 sent_analyze <- function(tweet) {
+  
+  # Remove punctuation, split into lower case words and calculate sentiments
   text <- gsub('[\".,!?:;()]','', tweet)
-  text <- tolower(text)
   words <- strsplit(text, ' ')[[1]]
-  scores <- sapply(words, function(w) sentiment(w)$score)
-  htmls <- sapply(words, function(w) as.character(sentiment(w)$html))
-  list(score = sum(scores), html = paste(htmls, collapse = " "))
+  lower_words <- sapply(words, tolower)
+  scores <- sapply(words, sentiment)
+  
+  # Start with original tweet and insert spans of appropriate sentiments
+  html <- as.character(tweet)
+  for (i in 1:length(lower_words)) {
+    sentiment <- scores[i]
+    if (sentiment != 0) {
+      html <- insert_sentiment_span(html, lower_words[i], sentiment)
+    }
+  }
+  
+  list(score = sum(scores), html = html)
 }
 
 # Generate tweet matrix - takes some time :/
