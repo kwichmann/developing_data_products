@@ -12,7 +12,7 @@ tweets$month <- as.Date(cut(tweets$timestamp, breaks = "month"))
 afinn <- read.csv("AFINN-111.txt", sep = "\t", header = FALSE)
 colnames(afinn) <- c("word", "score")
 
-# Get sentiment score and corresponding html element for a word
+# Get sentiment score for a word
 sentiment <- function(word) {
   lookup <- grep(paste0("^", word, "$"), afinn$word)
   if (length(lookup) == 0) {
